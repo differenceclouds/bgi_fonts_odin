@@ -1,4 +1,4 @@
-package bgi_fonts
+package main
 
 // litt.h
 // This file is part of SDL_BGI
@@ -2764,7 +2764,7 @@ litt_size :: []i32  {
 }
 
 // Pointers to glyph data
-litt_data :: [] []i32 {
+litt_data :: [][]i32 {
   litt_1, litt_2, litt_3, litt_4, 
   litt_5, litt_6, litt_7, litt_8, 
   litt_9, litt_10, litt_11, litt_12, 
