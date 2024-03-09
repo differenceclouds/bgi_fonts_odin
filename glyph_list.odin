@@ -1,11 +1,8 @@
 package main
 
-
-// used https://r12a.github.io/app-conversion/
-// UTF Decimal as used by raylib "LoadCodepoints"
-// un-labeled glyphs not assigned yet...
+// un-labeled glyphs not assigned yet
 // some fonts have 1 extra character in the unlabeled section...
-// todo: find more escapes and test each character...
+// todo: find more escapes and test each character
 
 GlyphLiterals :: []rune {
 	' ',

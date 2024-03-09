@@ -19,14 +19,17 @@ Glyph :: struct {
 
 Font :: struct {
 	name: string,
+	ID: int,
 	nglyphs: i32,
 	height: i32,
 	desc_height: i32,
 	glyphs: [dynamic]Glyph
 }
 
+
 importFontData :: proc(
 		_name: string,
+		_id: int,
 		_nglyphs: i32,
 		_height: i32,
 		_desc_height: i32,
@@ -38,6 +41,7 @@ importFontData :: proc(
 	font := Font{}
 
 	font.name = _name
+	font.ID = _id
 	font.nglyphs = _nglyphs
 	font.height = _height
 	font.desc_height = _desc_height
@@ -67,30 +71,17 @@ importGlyphData :: proc(_width: i32, _size: i32, _data : []i32) -> Glyph {
 
 
 
-drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32) {
+drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
 	for i :i32= 0; i < glyph.nVertices; i += 2 {
 		x1 := glyph.vertices[i].X * scale + x
 		y1 := glyph.vertices[i].Y * scale + y
 		x2 := glyph.vertices[i + 1].X * scale + x
 		y2 := glyph.vertices[i + 1].Y * scale + y
 		if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, rl.GREEN)
-		else do rl.DrawLine(x1, y1, x2, y2, rl.GREEN)
+		else do rl.DrawLine(x1, y1, x2, y2, color)
 	}
 }
 
-
-FontList :: enum {
-	bold,
-	euro,
-	goth,
-	lcom,
-	litt,
-	sans,
-	scri,
-	simp,
-	trip,
-	tscr,
-}
 
 
 LoadCodepoints :: proc(_text: string) -> [^]rune {
@@ -121,7 +112,7 @@ GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
 	return index;
 }
 
-DrawMessage :: proc(message: string, font: Font, scale: i32, position: Vertex) -> Vertex {
+DrawMessage :: proc(message: string, font: Font, scale: i32, position: Vertex, color: rl.Color) -> Vertex {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 	for i := 0; i < len(message); i += 1 {
@@ -130,7 +121,7 @@ DrawMessage :: proc(message: string, font: Font, scale: i32, position: Vertex) -
 		if glyphX == 0 && glyphIndex == 0 {
 			continue
 		}
-		drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scale)
+		drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scale, color)
 		glyphX += font.glyphs[glyphIndex].width * scale
 
 		
@@ -147,23 +138,39 @@ DrawMessage :: proc(message: string, font: Font, scale: i32, position: Vertex) -
 }
 
 
+User_Input :: struct {
+    KeyLeftPressed:   bool,
+    KeyRightPressed:  bool,
+}
+
+// process_user_input :: proc(user_input: ^User_Input) {
+//     user_input^ = User_Input{
+//         KeyLeftPressed = rl.IsKeyPressed(.INPUT_KEY_LEFT),
+//         KeyLeftPressed = rl.IsKeyPressed(.INPUT_KEY_RIGHT),
+//     }
+// }
+
+
+
+
 main :: proc() {
 
-	Fonts := #partial [FontList]Font {
-		.bold = importFontData("bold", bold_NGLYPHS, bold_height, bold_desc_height, bold_width, bold_size, bold_data),
-		.euro = importFontData("euro", euro_NGLYPHS, euro_height, euro_desc_height, euro_width, euro_size, euro_data),
-		.goth = importFontData("goth", goth_NGLYPHS, goth_height, goth_desc_height, goth_width, goth_size, goth_data),
-		.lcom = importFontData("lcom", lcom_NGLYPHS, lcom_height, lcom_desc_height, lcom_width, lcom_size, lcom_data),
-		.litt = importFontData("litt", litt_NGLYPHS, litt_height, litt_desc_height, litt_width, litt_size, litt_data),
-		.sans = importFontData("sans", sans_NGLYPHS, sans_height, sans_desc_height, sans_width, sans_size, sans_data),
-		.scri = importFontData("scri", scri_NGLYPHS, scri_height, scri_desc_height, scri_width, scri_size, scri_data),
-		.simp = importFontData("simp", simp_NGLYPHS, simp_height, simp_desc_height, simp_width, simp_size, simp_data),
-		.trip = importFontData("trip", trip_NGLYPHS, trip_height, trip_desc_height, trip_width, trip_size, trip_data),
-		.tscr = importFontData("tscr", tscr_NGLYPHS, tscr_height, tscr_desc_height, tscr_width, tscr_size, tscr_data),
-	}
+	Fonts := [dynamic]Font {}
+	append(&Fonts, importFontData("bold", len(Fonts), bold_NGLYPHS, bold_height, bold_desc_height, bold_width, bold_size, bold_data))
+	append(&Fonts, importFontData("euro", len(Fonts), euro_NGLYPHS, euro_height, euro_desc_height, euro_width, euro_size, euro_data))
+	append(&Fonts, importFontData("goth", len(Fonts), goth_NGLYPHS, goth_height, goth_desc_height, goth_width, goth_size, goth_data))
+	append(&Fonts, importFontData("lcom", len(Fonts), lcom_NGLYPHS, lcom_height, lcom_desc_height, lcom_width, lcom_size, lcom_data))
+	append(&Fonts, importFontData("litt", len(Fonts), litt_NGLYPHS, litt_height, litt_desc_height, litt_width, litt_size, litt_data))
+	append(&Fonts, importFontData("sans", len(Fonts), sans_NGLYPHS, sans_height, sans_desc_height, sans_width, sans_size, sans_data))
+	append(&Fonts, importFontData("scri", len(Fonts), scri_NGLYPHS, scri_height, scri_desc_height, scri_width, scri_size, scri_data))
+	append(&Fonts, importFontData("simp", len(Fonts), simp_NGLYPHS, simp_height, simp_desc_height, simp_width, simp_size, simp_data))
+	append(&Fonts, importFontData("trip", len(Fonts), trip_NGLYPHS, trip_height, trip_desc_height, trip_width, trip_size, trip_data))
+	append(&Fonts, importFontData("tscr", len(Fonts), tscr_NGLYPHS, tscr_height, tscr_desc_height, tscr_width, tscr_size, tscr_data))
 
-	uiFont := Fonts[.litt]
-	demoFont := Fonts[.trip]
+	uiFont := Fonts[4]
+	demoFont := Fonts[0]
+	// uiFont := FontList.litt
+	// demoFont := FontList.trip
 
 	rl.InitWindow(1024, 768, "single line fonts demo")
 	defer rl.CloseWindow()
@@ -179,14 +186,25 @@ main :: proc() {
 	
 
 	for !rl.WindowShouldClose() {
+		KeyLeftPressed := rl.IsKeyPressed(.LEFT)
+		KeyRightPressed := rl.IsKeyPressed(.RIGHT)
+
+		if KeyRightPressed {
+			id := (demoFont.ID + 1) %% len(Fonts)
+			demoFont = Fonts[id] 
+		}
+		if KeyLeftPressed {
+			id := (demoFont.ID - 1) %% len(Fonts)
+			demoFont = Fonts[id]
+		}
+
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BLACK)
-		// rl.DrawLine(0, 0, 1024, 768, rl.WHITE)	
 
-		DrawMessage("Why shop at 5 or six stores when you could shop at just one!?", demoFont, 4, Vertex{16, 16})
+		DrawMessage("Why shop at 5 or six stores when you could shop at just one!?", demoFont, 4, Vertex{16, 36}, rl.GREEN)
 
 		uiMessage : string = strings.concatenate({"font: \"",demoFont.name,"\""})
-		DrawMessage(uiMessage, uiFont, 3, Vertex{0,0})
+		DrawMessage(uiMessage, uiFont, 3, Vertex{0,0}, rl.WHITE)
 
 		rl.DrawLine(0, 36, 1024, 36, rl.WHITE)
 
