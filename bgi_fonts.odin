@@ -1,7 +1,14 @@
 package main
 import "core:fmt"
 import "core:strings"
+import "core:strconv"
 import rl   "vendor:raylib"
+
+Window :: struct { 
+    name:	cstring,
+    width:	i32, 
+    height:	i32,
+}
 
 Vertex :: struct {
 	X: i32,
@@ -77,8 +84,10 @@ drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
 		y1 := glyph.vertices[i].Y * scale + y
 		x2 := glyph.vertices[i + 1].X * scale + x
 		y2 := glyph.vertices[i + 1].Y * scale + y
-		if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, rl.GREEN)
-		else do rl.DrawLine(x1, y1, x2, y2, color)
+		if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, color)
+		else {
+			rl.DrawLine(x1, y1, x2, y2, color)
+		}
 	}
 }
 
@@ -112,35 +121,67 @@ GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
 	return index;
 }
 
-DrawMessage :: proc(message: string, font: Font, scale: i32, position: Vertex, color: rl.Color) -> Vertex {
+DrawMessage :: proc(window: Window, message: string, font: Font, scale: i32, position: Vertex, color: rl.Color) -> Vertex {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
-	for i := 0; i < len(message); i += 1 {
-		char : rune = cast(rune)message[i]
-		glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
-		if glyphX == 0 && glyphIndex == 0 {
-			continue
-		}
-		drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scale, color)
-		glyphX += font.glyphs[glyphIndex].width * scale
 
-		
-		if i != len(message) - 2 {
-			nextGlyph : Glyph = font.glyphs[glyphIndex + 1]
-			if glyphX > 1024 - position.X - font.glyphs[glyphIndex + 1].width * scale {
+	words := strings.split_after(message, " ")
+
+	for i := 0; i < len(words) ; i += 1 {
+		for j := 0; j < len(words[i]); j += 1 {
+			char : rune = cast(rune)words[i][j]
+			glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
+			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scale, color)
+			glyphX += font.glyphs[glyphIndex].width * scale
+		}
+		if i < len(words) - 1 {
+			nextwidth := MeasureText(words[i + 1], font, false).X * scale
+			if glyphX > window.width - position.X - nextwidth {
 				glyphX = 0
 				glyphY += font.height * scale
 			}
-		} 
-
+		}
 	}
 	return Vertex{glyphX, glyphY}
 }
 
+DrawAllGlyphs :: proc(window: Window, font: Font, scale: i32, position: Vertex, color: rl.Color) {
+	glyphX : i32 = 0
+	glyphY : i32 = 0
+	for i : i32 = 0; i < font.nglyphs; i += 1 {
+		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scale, color)
+		glyphX += font.glyphs[i].width * scale
+		if i < font.nglyphs - 1 {
+			nextGlyph : Glyph = font.glyphs[i + 1]
+			if glyphX > window.width - position.X - font.glyphs[i + 1].width * scale {
+				glyphX = 0
+				glyphY += font.height * scale
+			}
+		}
+	} 
+}
+
+MeasureText :: proc(text: string, font: Font, includeSpaces: bool) -> Vertex {
+	sizeX :i32= 0
+	sizeY :i32= 0
+	length := len(text)
+	for i := 0; i < len(text); i += 1 {
+		char : rune = cast(rune)text[i]
+		glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
+		if !includeSpaces && glyphIndex == 0 do continue
+		sizeX += font.glyphs[glyphIndex].width
+	}
+	if(sizeX > 0) do sizeY = font.height
+
+	return {sizeX, sizeY}
+}
+
 
 User_Input :: struct {
-    KeyLeftPressed:   bool,
-    KeyRightPressed:  bool,
+    KeyLeftPressed:		bool,
+    KeyRightPressed:	bool,
+    KeyUpPressed:		bool,
+    KeyDownPressed:		bool
 }
 
 // process_user_input :: proc(user_input: ^User_Input) {
@@ -151,9 +192,16 @@ User_Input :: struct {
 // }
 
 
-
+int_to_string :: #force_inline proc(num: int) -> string {
+	buf: [4]byte
+	return strconv.itoa(buf[:], num)
+}
 
 main :: proc() {
+	window := Window{"line-segment fonts demo", 1280, 720}
+	rl.InitWindow(window.width, window.height, window.name)
+	defer rl.CloseWindow()
+	rl.SetTargetFPS(60)
 
 	Fonts := [dynamic]Font {}
 	append(&Fonts, importFontData("bold", len(Fonts), bold_NGLYPHS, bold_height, bold_desc_height, bold_width, bold_size, bold_data))
@@ -168,14 +216,11 @@ main :: proc() {
 	append(&Fonts, importFontData("tscr", len(Fonts), tscr_NGLYPHS, tscr_height, tscr_desc_height, tscr_width, tscr_size, tscr_data))
 
 	uiFont := Fonts[4]
-	demoFont := Fonts[0]
+	demoFont := Fonts[1]
+
+	scale : i32 = 3
 	// uiFont := FontList.litt
 	// demoFont := FontList.trip
-
-	rl.InitWindow(1024, 768, "single line fonts demo")
-	defer rl.CloseWindow()
-	rl.SetTargetFPS(60)
-
 	// LoadCodepoints("k")
 	// fmt.println(GetCodepoint('k')[1])
 	// for i : i32 = 32; i < 100; i += 1 {
@@ -184,29 +229,39 @@ main :: proc() {
 
 	fmt.println(GetGlyphIndex(GetCodepoint('!')))
 	
-
 	for !rl.WindowShouldClose() {
-		KeyLeftPressed := rl.IsKeyPressed(.LEFT)
-		KeyRightPressed := rl.IsKeyPressed(.RIGHT)
 
-		if KeyRightPressed {
+		if rl.IsKeyPressed(.LEFT) {
 			id := (demoFont.ID + 1) %% len(Fonts)
 			demoFont = Fonts[id] 
 		}
-		if KeyLeftPressed {
+		if rl.IsKeyPressed(.RIGHT) {
 			id := (demoFont.ID - 1) %% len(Fonts)
 			demoFont = Fonts[id]
+		}
+		if rl.IsKeyPressed(.UP) {
+			scale += 1
+		}
+		if rl.IsKeyPressed(.DOWN) {
+			scale = max(1, scale - 1)
 		}
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BLACK)
 
-		DrawMessage("Why shop at 5 or six stores when you could shop at just one!?", demoFont, 4, Vertex{16, 36}, rl.GREEN)
+		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scale, Vertex{16, 36}, rl.WHITE)
+		newY := messageposition.Y + 36 + demoFont.height * scale
+		newY -= demoFont.desc_height * scale
+		newY += 4
+		rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
+		DrawAllGlyphs(window, demoFont, scale, Vertex{16, newY}, rl.WHITE)
 
-		uiMessage : string = strings.concatenate({"font: \"",demoFont.name,"\""})
-		DrawMessage(uiMessage, uiFont, 3, Vertex{0,0}, rl.WHITE)
+		uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
+		DrawMessage(window, uiMessage, uiFont, 3, Vertex{16,0}, rl.GREEN)
+		uiMessage2 := strings.concatenate({ "  scale: ", int_to_string(cast(int)scale) })
+		DrawMessage(window, uiMessage2, uiFont, 3, Vertex{window.width / 2, 0}, rl.GREEN)
 
-		rl.DrawLine(0, 36, 1024, 36, rl.WHITE)
+		rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
 
 		rl.EndDrawing()
 	}
