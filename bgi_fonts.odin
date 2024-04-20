@@ -260,6 +260,8 @@ main :: proc() {
 		DrawMessage(window, uiMessage, uiFont, 3, Vertex{16,0}, rl.GREEN)
 		uiMessage2 := strings.concatenate({ "  scale: ", int_to_string(cast(int)scale) })
 		DrawMessage(window, uiMessage2, uiFont, 3, Vertex{window.width / 2, 0}, rl.GREEN)
+		uiMessage3 := "interact with arrow keys"
+		DrawMessage(window, uiMessage3, uiFont, 2, Vertex{window.width - 300, 10}, rl.GREEN)
 
 		rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
 
