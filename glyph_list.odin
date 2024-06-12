@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 
 // un-labeled glyphs not assigned yet
 // some fonts have 1 extra character in the unlabeled section...

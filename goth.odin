@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 
 // goth.h
 // This file is part of SDL_BGI

@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 
 // trip.h
 // This file is part of SDL_BGI

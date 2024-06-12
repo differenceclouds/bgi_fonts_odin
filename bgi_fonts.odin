@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 import "core:fmt"
 import "core:strings"
 import "core:strconv"
@@ -198,6 +198,7 @@ int_to_string :: #force_inline proc(num: int) -> string {
 }
 
 main :: proc() {
+
 	window := Window{"line-segment fonts demo", 1280, 720}
 	rl.InitWindow(window.width, window.height, window.name)
 	defer rl.CloseWindow()
@@ -229,6 +230,7 @@ main :: proc() {
 
 	fmt.println(GetGlyphIndex(GetCodepoint('!')))
 	
+
 	for !rl.WindowShouldClose() {
 
 		if rl.IsKeyPressed(.LEFT) {

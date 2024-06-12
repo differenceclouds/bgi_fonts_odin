@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 // euro.h
 // This file is part of SDL_BGI
 // Decoded from original BGI font EURO.CHR

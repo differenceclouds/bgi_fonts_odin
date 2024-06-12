@@ -1,4 +1,4 @@
-package main
+package bgi_fonts
 
 // bold.h
 // This file is part of SDL_BGI

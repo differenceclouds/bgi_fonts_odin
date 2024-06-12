@@ -1,0 +1,1134 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"cre",
+				"create_staircase"
+			],
+			[
+				"b",
+				"bitwiseToOrdered"
+			],
+			[
+				"op",
+				"OpenRandom"
+			],
+			[
+				"Ma",
+				"MazeStyle"
+			],
+			[
+				"Ope",
+				"OpenOffscreen"
+			],
+			[
+				"Op",
+				"OpenOffscreen"
+			],
+			[
+				"M",
+				"MazeStyle.OpenRandom"
+			],
+			[
+				"Clo",
+				"ClosedRandom"
+			],
+			[
+				"m",
+				"mazeStyle"
+			],
+			[
+				"NW",
+				"NWSE"
+			],
+			[
+				"co",
+				"connected_W"
+			],
+			[
+				"con",
+				"connected_W"
+			],
+			[
+				"worl",
+				"world.tile"
+			],
+			[
+				"N",
+				"N___"
+			],
+			[
+				"hea",
+				"header-logo"
+			],
+			[
+				"si",
+				"sidebar-inner"
+			],
+			[
+				"sid",
+				"sidebar"
+			],
+			[
+				"s",
+				"sidebar"
+			],
+			[
+				"fig",
+				"figcaption"
+			],
+			[
+				"convert",
+				"convertToDecimal"
+			],
+			[
+				"to",
+				"toBool"
+			],
+			[
+				"arr",
+				"arrangement-reversed"
+			],
+			[
+				"row",
+				"row-reverse"
+			],
+			[
+				"ar",
+				"arrangement-reversed"
+			],
+			[
+				"mark",
+				"markdown-container"
+			],
+			[
+				"tex",
+				"textshadow"
+			],
+			[
+				"tr",
+				"transparentdarkblue"
+			],
+			[
+				"grid-template-",
+				"grid-template-columns"
+			],
+			[
+				"url",
+				"url('../graphics"
+			],
+			[
+				"flo",
+				"floatingCardsInit"
+			],
+			[
+				"floa",
+				"floatingCardsInit"
+			],
+			[
+				"list",
+				"listArray"
+			],
+			[
+				"myl",
+				"myList2"
+			],
+			[
+				"my",
+				"myList1"
+			],
+			[
+				"mylis",
+				"myList1"
+			],
+			[
+				"float",
+				"floating-cards-init"
+			],
+			[
+				"pag",
+				"pageLoadedScrolledDown"
+			],
+			[
+				"pa",
+				"pageLoadedAtTop"
+			],
+			[
+				"slid",
+				"slid-out"
+			],
+			[
+				"sl",
+				"slide-out"
+			],
+			[
+				"sli",
+				"slide-out"
+			],
+			[
+				"dem",
+				"demoFont"
+			],
+			[
+				"Font",
+				"FontList"
+			],
+			[
+				"Key",
+				"KeyRightPressed"
+			],
+			[
+				"left",
+				"KeyLeftPressed"
+			],
+			[
+				"Fon",
+				"Fonts"
+			],
+			[
+				"v",
+				"Vertex"
+			],
+			[
+				"gl",
+				"glyphY"
+			],
+			[
+				"de",
+				"demoFont"
+			],
+			[
+				"glyph",
+				"glyphIndex"
+			],
+			[
+				"Dr",
+				"DrawMessage"
+			],
+			[
+				"Gl",
+				"GlyphLiterals"
+			],
+			[
+				"Get",
+				"GetGlyphIndex"
+			],
+			[
+				"gly",
+				"glyphX"
+			],
+			[
+				"g",
+				"glyphs"
+			],
+			[
+				"li",
+				"litt"
+			],
+			[
+				"draw",
+				"drawGlyph"
+			],
+			[
+				"n",
+				"nglyphs"
+			],
+			[
+				"dr",
+				"drawGlyph"
+			],
+			[
+				"V",
+				"vertices"
+			],
+			[
+				"_g",
+				"_glyphs_data"
+			],
+			[
+				"_s",
+				"_sizes"
+			],
+			[
+				"_w",
+				"_widths"
+			],
+			[
+				"im",
+				"importGlyphData"
+			],
+			[
+				"Set",
+				"SetTargetFPS"
+			],
+			[
+				"litt_d",
+				"litt_desc_height"
+			],
+			[
+				"_",
+				"_glyphs_data"
+			],
+			[
+				"index",
+				"list_index"
+			],
+			[
+				"orig",
+				"original_url"
+			],
+			[
+				"gener",
+				"generated_html"
+			],
+			[
+				"page",
+				"page_data"
+			],
+			[
+				"find",
+				"find_all"
+			],
+			[
+				"onl",
+				"only_title"
+			],
+			[
+				"wor",
+				"world.alive"
+			],
+			[
+				"nex",
+				"next_world.alive"
+			],
+			[
+				"clear",
+				"clear_button_pressed"
+			],
+			[
+				"wo",
+				"world.width"
+			],
+			[
+				"mou",
+				"mouse_x"
+			],
+			[
+				"mous",
+				"mouse_y"
+			],
+			[
+				"mouse",
+				"mouse_x"
+			],
+			[
+				"windo",
+				"window.height"
+			],
+			[
+				"logo",
+				"logogreen"
+			],
+			[
+				"sea",
+				"searchResults"
+			],
+			[
+				"fin",
+				"findBy"
+			],
+			[
+				"stack",
+				"stack-card"
+			],
+			[
+				"card",
+				"cardNo"
+			],
+			[
+				"toS",
+				"toString"
+			],
+			[
+				"darkslate",
+				"darkslateblue"
+			],
+			[
+				"sha",
+				"shadow2"
+			],
+			[
+				"gray",
+				"darkslategray"
+			],
+			[
+				"darksl",
+				"darkslategray"
+			],
+			[
+				"shad",
+				"shadow2"
+			],
+			[
+				"sh",
+				"shadow2"
+			],
+			[
+				"lo",
+				"logoblue"
+			],
+			[
+				"grid-te",
+				"grid-template-rows"
+			],
+			[
+				"log",
+				"logoorange"
+			],
+			[
+				"ham",
+				"hamberger-icon"
+			],
+			[
+				"bac",
+				"background-image"
+			],
+			[
+				"ba",
+				"background-color"
+			],
+			[
+				"hom",
+				"homeBlocks"
+			],
+			[
+				"flex",
+				"flex-direction"
+			],
+			[
+				"shado",
+				"box-shadow"
+			],
+			[
+				"tab",
+				"table-cell"
+			],
+			[
+				"cla",
+				"classList"
+			],
+			[
+				"get",
+				"getElementById"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"dark",
+				"darkkhaki"
+			],
+			[
+				"num",
+				"searchByNumberResults"
+			],
+			[
+				"gete",
+				"getElementsByClassName"
+			],
+			[
+				"backgroun",
+				"background-image"
+			],
+			[
+				"no",
+				"no-repeat"
+			],
+			[
+				"max",
+				"max-width"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"se",
+				"searchbox"
+			],
+			[
+				"over",
+				"overflow-y"
+			],
+			[
+				"max-",
+				"max-width"
+			],
+			[
+				"kt",
+				"kirbytext"
+			],
+			[
+				"filt",
+				"filteredURLs"
+			],
+			[
+				"sort",
+				"sortBy"
+			],
+			[
+				"f",
+				"fields"
+			],
+			[
+				"retur",
+				"returned_page"
+			],
+			[
+				"dow",
+				"download_html_with_retries"
+			],
+			[
+				"animation",
+				"animation-name"
+			],
+			[
+				"its",
+				"itsToday"
+			],
+			[
+				"it",
+				"itsToday"
+			],
+			[
+				"for",
+				"foreach"
+			],
+			[
+				"marg",
+				"margin-bottom"
+			],
+			[
+				"las",
+				"last-of-type"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "bgi_fonts.odin",
+			"settings":
+			{
+				"buffer_size": 7707,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					5,
+					1,
+					"insert",
+					{
+						"characters": "\n\n"
+					},
+					"BQAAAA4ZAAAAAAAADxkAAAAAAAAAAAAADxkAAAAAAAAQGQAAAAAAAAAAAAAQGQAAAAAAABEZAAAAAAAAAAAAABEZAAAAAAAAEhkAAAAAAAAAAAAADxkAAAAAAAAPGQAAAAAAAAEAAAAJ",
+					"AQAAAAAAAAABAAAADhkAAAAAAAAOGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					7,
+					1,
+					"reindent",
+					null,
+					"AQAAAA8ZAAAAAAAAEBkAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAADxkAAAAAAAAPGQAAAAAAAAAAAAAAAEBA"
+				],
+				[
+					8,
+					1,
+					"insert",
+					{
+						"characters": "r."
+					},
+					"AwAAABAZAAAAAAAAERkAAAAAAAAAAAAAEhkAAAAAAAASGQAAAAAAAAEAAAAJERkAAAAAAAASGQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAEBkAAAAAAAAQGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					9,
+					1,
+					"insert",
+					{
+						"characters": "in"
+					},
+					"AgAAABIZAAAAAAAAExkAAAAAAAAAAAAAExkAAAAAAAAUGQAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAEhkAAAAAAAASGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					10,
+					3,
+					"left_delete",
+					null,
+					"AwAAABMZAAAAAAAAExkAAAAAAAABAAAAbhIZAAAAAAAAEhkAAAAAAAABAAAAaREZAAAAAAAAERkAAAAAAAABAAAALg",
+					"AQAAAAAAAAABAAAAFBkAAAAAAAAUGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					11,
+					1,
+					"insert",
+					{
+						"characters": "l.init"
+					},
+					"BgAAABEZAAAAAAAAEhkAAAAAAAAAAAAAEhkAAAAAAAATGQAAAAAAAAAAAAATGQAAAAAAABQZAAAAAAAAAAAAABQZAAAAAAAAFRkAAAAAAAAAAAAAFRkAAAAAAAAWGQAAAAAAAAAAAAAWGQAAAAAAABcZAAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAERkAAAAAAAARGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					26,
+					9,
+					"left_delete",
+					null,
+					"CQAAABYZAAAAAAAAFhkAAAAAAAABAAAAdBUZAAAAAAAAFRkAAAAAAAABAAAAaRQZAAAAAAAAFBkAAAAAAAABAAAAbhMZAAAAAAAAExkAAAAAAAABAAAAaRIZAAAAAAAAEhkAAAAAAAABAAAALhEZAAAAAAAAERkAAAAAAAABAAAAbBAZAAAAAAAAEBkAAAAAAAABAAAAcg8ZAAAAAAAADxkAAAAAAAABAAAACQ4ZAAAAAAAADhkAAAAAAAABAAAACg",
+					"AQAAAAAAAAABAAAAFxkAAAAAAAAXGQAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					37,
+					1,
+					"insert",
+					{
+						"characters": "j"
+					},
+					"AQAAAJgaAAAAAAAAmRoAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAAmBoAAAAAAACYGgAAAAAAAAAAAAAAAPC/"
+				],
+				[
+					38,
+					1,
+					"left_delete",
+					null,
+					"AQAAAJgaAAAAAAAAmBoAAAAAAAABAAAAag",
+					"AQAAAAAAAAABAAAAmRoAAAAAAACZGgAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		},
+		{
+			"file": "bgi_fonts.sublime-project",
+			"settings":
+			{
+				"buffer_size": 335,
+				"line_ending": "Unix"
+			},
+			"undo_stack":
+			[
+				[
+					3,
+					1,
+					"revert",
+					null,
+					"AgAAAAAAAAAAAAAAAAAAAAAAAADoAAAAewoJImZvbGRlcnMiOgoJWwoJCXsKCQkJInBhdGgiOiAiLiIsCgkJfQoJXSwKCSJidWlsZF9zeXN0ZW1zIjoKCVsKCQl7CgkJCSJuYW1lIjogInN1YmxpbWVfb2Rpbl90ZW1wbGF0ZSIsCgkJCSJzaGVsbF9jbWQiOiAifi9PZGluL29kaW4gcnVuIC4iLAoKCQl9CgldLAoJInNldHRpbmdzIjoKCXsKCQkiTFNQIjoKCQl7CgkJCSJvZGluIjoKCQkJewoJCQkJImVuYWJsZWQiOiB0cnVlCgkJCX0KCQl9Cgl9LAp9CgAAAAAAAAAATwEAAAAAAAAAAAAA",
+					"AQAAAAAAAAABAAAA2AAAAAAAAADYAAAAAAAAAAAAAAAAAPC/"
+				]
+			]
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 367.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"lsp ",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"pac",
+				"Package Control: Remove Package"
+			],
+			[
+				"lsp togg",
+				"LSP: Toggle Log Panel"
+			],
+			[
+				"lsp en",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"lsp dis",
+				"LSP: Disable Language Server in Project"
+			],
+			[
+				"lsp trou",
+				"LSP: Troubleshoot Server"
+			],
+			[
+				"lsp tog",
+				"LSP: Toggle Log Panel"
+			],
+			[
+				"lsp eb",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"lsp ena",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"lsp",
+				"Preferences: LSP Settings"
+			],
+			[
+				"lsp enab",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"lsp enable",
+				"LSP: Enable Language Server in Project"
+			],
+			[
+				"package",
+				"Package Control: Install Package"
+			],
+			[
+				"add",
+				"Package Control: Add Channel"
+			],
+			[
+				"pack",
+				"Preferences: Package Control Settings"
+			],
+			[
+				"instal",
+				"Install Package Control"
+			],
+			[
+				"",
+				"Help: Check for Updates"
+			],
+			[
+				"packa",
+				"Preferences: Browse Packages"
+			],
+			[
+				"pa",
+				"Package Control: Enable Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Disable Package"
+			],
+			[
+				"Package Control: Auto Close",
+				"Package Control: Upgrade/Overwrite All Packages"
+			],
+			[
+				"Package Control: Instal",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 258.0,
+		"history":
+		[
+			"os.environ[\"PATH\"]",
+			"import os;"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/Users/Radagast/odin-projects/bgi_fonts_odin"
+	],
+	"file_history":
+	[
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/bgi_fonts.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/bgi_fonts.sublime-project",
+		"/private/etc/zprofile",
+		"/Users/Radagast/python/beyond/parse.py",
+		"/Users/Radagast/python/pyramid/decode.py",
+		"/Users/Radagast/python/pyramid/stairs.py",
+		"/Users/Radagast/python/pyramid/message.txt",
+		"/Users/Radagast/.config/mpv/input.conf",
+		"/Users/Radagast/Desktop/animationplayer_example.cs",
+		"/Users/Radagast/htdocs/homepage/src/_includes/work.njk",
+		"/Users/Radagast/htdocs/homepage/src/_data/admin/index.html",
+		"/Users/Radagast/htdocs/homepage/src/admin/config.yml",
+		"/Users/Radagast/odin-projects/wangtiles/wangtiles.odin",
+		"/Users/Radagast/Desktop/idrive.js",
+		"/Users/Radagast/VSProjects/LesserKeys/Content/Levels/StaticObjects.tsx",
+		"/Users/Radagast/VSProjects/LesserKeys/Content/Levels/BlocksLarge.tsx",
+		"/Users/Radagast/VSProjects/LesserKeys/Content/Levels/BoxDrawing.tsx",
+		"/Users/Radagast/odin-projects/game_of_life/game_of_life.odin",
+		"/Users/Radagast/odin-projects/wang/mazegen.odin",
+		"/Users/Radagast/.nuget/NuGet/NuGet.Config",
+		"/Users/Radagast/VSProjects/LesserKeys/obj/project.assets.json",
+		"/Users/Radagast/htdocs/whoknew/assets/scss/styles.scss",
+		"/Users/Radagast/htdocs/whoknew/assets/scss/templates/home.scss",
+		"/Users/Radagast/htdocs/whoknew/site/snippets/blocks/markdown.php",
+		"/Users/Radagast/htdocs/whoknew/site/snippets/blocks/twoup.php",
+		"/Users/Radagast/htdocs/whoknew/assets/scss/_global_vars.scss",
+		"/Users/Radagast/htdocs/whoknew/site/snippets/header.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/home.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/stack-card.php",
+		"/Users/Radagast/htdocs/whoknew/site/models/stack-card.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/stack.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/stack-old.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/signup.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/rules.php",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/site.yml",
+		"/Users/Radagast/htdocs/whoknew/site/snippets/footer.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/default.php",
+		"/Users/Radagast/htdocs/whoknew/site/templates/card-old.php",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/pages/home.yml",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/blocks/twoup.yml",
+		"/Users/Radagast/htdocs/whoknew/site/models/stack.php",
+		"/Users/Radagast/htdocs/whoknew/kirbyold/config/api/models/File.php",
+		"/Users/Radagast/htdocs/whoknew/kirby/config/api/models/Page.php",
+		"/Users/Radagast/Desktop/copytest.html",
+		"/Users/Radagast/htdocs/whoknew/kirby/config/blocks/markdown/markdown.yml",
+		"/Users/Radagast/htdocs/whoknew/site/snippets/blocks/synopsis.php",
+		"/Users/Radagast/htdocs/whoknew/assets/scss/templates/rules.scss",
+		"/Users/Radagast/htdocs/whoknew/assets/graphics/card_outline.svg",
+		"/Users/Radagast/Desktop/table.html",
+		"/Users/Radagast/htdocs/whoknew/site/templates/splash.php",
+		"/Users/Radagast/htdocs/whoknew/.htaccess",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/pages/rules.yml",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/pages/splash.yml",
+		"/Users/Radagast/htdocs/whoknew/site/blueprints/pages/splash-directory.yml",
+		"/Users/Radagast/htdocs/whoknew/whoknew.sublime-project",
+		"/Users/Radagast/htdocs/whoknew/whoknew.sublime-workspace",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/euro.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/bold.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/glyph_list.odin",
+		"/Users/Radagast/odin-projects/tteesstt/test.odin",
+		"/Users/Radagast/odin-projects/type_test/type_test.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/character_list.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/goth.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/lcom.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/litt.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/sans.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/scri.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/simp.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/trip.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/tscr.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/trip.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/simp.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/scri.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/sans.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/lcom.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/graphics.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/goth.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/untranslated/bold.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/font_data/litt.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/font_data/tscr.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts/litt.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts_odin/graphics.odin",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/litt.h",
+		"/Users/Radagast/odin-projects/bgi_fonts/bgi_fonts.odin",
+		"/Users/Radagast/odin-projects/translated_raylib_examples/shapes_bouncing_ball.odin",
+		"/Users/Radagast/odin-projects/translated_raylib_examples/shapes_colors_palette.odin",
+		"/Users/Radagast/odin-projects/tetroid/tetroid.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts/fonts/litt_full.odin",
+		"/Users/Radagast/odin-projects/bgi_fonts/fonts/litt_full.odin.cpp",
+		"/Users/Radagast/odin-projects/OdinExamples/by_example/dynamic_arrays/dynamic_arrays.odin",
+		"/Users/Radagast/godot/LSD/load-order.md",
+		"/Users/Radagast/VSProjects/rres-cs/sublime.cs",
+		"/Users/Radagast/VSProjects/LesserKeys/bin/Debug/netcoreapp6.0/settings.json",
+		"/Users/Radagast/VSProjects/LesserKeys/Classes/Game1.cs",
+		"/Users/Radagast/VSProjects/Castelian/Tower.cs",
+		"/Users/Radagast/Documents/Projects/Lesser Keys of Dana/sportsman/sportsman_boxjump_R_3_frames/sportsman_boxjump_R_3_trimmed.json",
+		"/Users/Radagast/Documents/Projects/Lesser Keys of Dana/sportsman/sportsman_boxjump_R_2_frames/sportsman_boxjump_R_2_trimmed.json",
+		"/Users/Radagast/rust/zed/target/debug/build/live_kit_client-77edd3c465726007/build_script_build-77edd3c465726007.d",
+		"/Users/Radagast/Downloads/atlas.rtpa",
+		"/Users/Radagast/python/beyond/out/2008/04/holy-mackerel-m/index.html",
+		"/Users/Radagast/python/beyond/image_fail_log_2.txt",
+		"/Users/Radagast/python/beyond/merged-urls-reversed.txt",
+		"/Users/Radagast/python/beyond/out/2005/09/everyday-object/index.html",
+		"/Users/Radagast/python/beyond/parsing_tests/index.html",
+		"/Users/Radagast/python/beyond/request_test.py",
+		"/Users/Radagast/python/beyond/get-links.py",
+		"/Users/Radagast/python/beyond/dirtest.py",
+		"/Users/Radagast/python/beyond/parsing_tests/Necropolitics with Critical Art Ensemble.html",
+		"/Users/Radagast/python/beyond/download-files.py",
+		"/Users/Radagast/python/beyond/open-webpage.py",
+		"/Users/Radagast/python/beyond/parsing_tests/Luminous Streetwear WIRED.html",
+		"/Users/Radagast/python/beyond/parsing_tests/test.html",
+		"/Users/Radagast/python/beyond/parsing_tests/English tourist in seventeenth-century Turin WIRED.html",
+		"/Users/Radagast/python/beyond/English tourist in seventeenth-century Turin WIRED.html",
+		"/Users/Radagast/python/beyond/html/logfile",
+		"/Users/Radagast/Documents/zeeba_links_reduced.txt",
+		"/Users/Radagast/Documents/Projects/ZeebaTV/zeeba_links.txt",
+		"/Users/Radagast/.bash_profile",
+		"/Users/Radagast/Documents/Projects/Lesser Keys of Dana/sportsman/sportsman_blockPatterns",
+		"/Users/Radagast/Documents/Projects/Lesser Keys of Dana/sportsman/blockLogic.cs",
+		"/Users/Radagast/Downloads/Sportsman.cs",
+		"/Users/Radagast/Documents/Projects/Lesser Keys of Dana/sportsman/sportsman_frames/sportsman_meta.json",
+		"/Users/Radagast/.zprofile",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/tscr.cs",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/tscr.h",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/trip.cs",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/trip.h",
+		"/Users/Radagast/Documents/Projects/Borland Single Line Fonts/bgi_fonts_src/simp.cs"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 127.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"rl.init",
+			"init"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"scrollbar_highlights": true,
+		"show_context": true,
+		"use_buffer2": true,
+		"use_gitignore": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "bgi_fonts.odin",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 7707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6647,
+								6647
+							]
+						],
+						"settings":
+						{
+							"auto_complete_triggers":
+							[
+								{
+									"characters": "<",
+									"selector": "text.html, text.xml"
+								},
+								{
+									"rhs_empty": true,
+									"selector": "punctuation.accessor"
+								},
+								{
+									"characters": ".>#\"/:",
+									"selector": "meta.tag, source - comment - string.quoted.double.block - string.quoted.single.block - string.unquoted.heredoc",
+									"server": "odin"
+								}
+							],
+							"lsp_active": true,
+							"lsp_uri": "file:///Users/Radagast/odin-projects/bgi_fonts_odin/bgi_fonts.odin",
+							"show_definitions": false,
+							"syntax": "Packages/Odin/Odin.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 3656.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"stack_multiselect": false,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "bgi_fonts.sublime-project",
+					"selected": true,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 335,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								335
+							]
+						],
+						"settings":
+						{
+							"lsp_uri": "file:///Users/Radagast/odin-projects/bgi_fonts_odin/bgi_fonts.sublime-project",
+							"syntax": "Packages/JSON/JSON.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"stack_multiselect": false,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 45.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.LSP Log Panel":
+	{
+		"height": 120.0
+	},
+	"output.diagnostics":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 243.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups-dummy":
+	{
+		"height": 0.0
+	},
+	"output.project_environment_log":
+	{
+		"height": 0.0
+	},
+	"output.unsaved_changes":
+	{
+		"height": 112.0
+	},
+	"pinned_build_system": "Packages/User/BasicOdin.sublime-build",
+	"project": "bgi_fonts.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"~/htdocs/jarek/site/snippets/header.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 254.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
