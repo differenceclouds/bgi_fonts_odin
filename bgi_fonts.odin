@@ -77,6 +77,60 @@ importGlyphData :: proc(_width: i32, _size: i32, _data : []i32) -> Glyph {
 
 
 
+DrawLineBresenham :: proc(x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
+	dx, dy, i, e : i32
+	incx, incy, inc1, inc2 : i32
+	x, y : i32
+
+	dx = x2 - x1
+	dy = y2 - y1
+
+	if dx < 0 do dx = -dx
+	if dy < 0 do dy = -dy
+
+	incx = 1
+	if x2 < x1 do incx = -1
+	
+	incy = 1
+	if y2 < y1 do incy = -1
+
+	x = x1
+	y = y1
+
+	if dx > dy {
+		rl.DrawPixel(x, y, color)
+		e = 2 * dy - dx
+		inc1 = 2 * (dy - dx)
+		inc2 = 2 * dy
+		for i:i32 = 0; i < dx; i += 1 {
+			if e >= 0 {
+				y += incy
+				e += inc1
+			} else {
+				e += inc2
+			}
+			x += incx
+			rl.DrawPixel(x, y, color)
+		}
+	} else {
+		rl.DrawPixel(x, y, color)
+		e = 2 * dx - dy
+		inc1 = 2 * (dx - dy)
+		inc2 = 2 * dx
+		for i:i32 = 0; i < dy; i += 1 {
+			if e >= 0 {
+				x += incx
+				e += inc1
+			} else {
+				e += inc2
+			}
+			y += incy
+			rl.DrawPixel(x, y, color)
+		}
+	}
+
+}
+
 
 drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
 	for i :i32= 0; i < glyph.nVertices; i += 2 {
@@ -84,10 +138,29 @@ drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
 		y1 := glyph.vertices[i].Y * scale + y
 		x2 := glyph.vertices[i + 1].X * scale + x
 		y2 := glyph.vertices[i + 1].Y * scale + y
-		if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, color)
-		else {
-			rl.DrawLine(x1, y1, x2, y2, color)
-		}
+
+		// rl.DrawPixel(x1, y1, rl.YELLOW)
+		// rl.DrawPixel(x2, y2, rl.YELLOW)
+
+		DrawLineBresenham(x1, y1, x2, y2, color)
+		// if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, rl.YELLOW)
+		// else {
+			// rl.DrawLine(x1, y1, x2, y2, color)
+		// }
+
+	}
+}
+
+drawGlyphRL :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
+	for i :i32= 0; i < glyph.nVertices; i += 2 {
+		x1 := glyph.vertices[i].X * scale + x
+		y1 := glyph.vertices[i].Y * scale + y
+		x2 := glyph.vertices[i + 1].X * scale + x
+		y2 := glyph.vertices[i + 1].Y * scale + y
+
+		rl.DrawLine(x1, y1, x2, y2, color)
+		rl.DrawPixel(x1 - 1, y1, rl.YELLOW)
+		rl.DrawPixel(x2 - 1, y2, rl.YELLOW)
 	}
 }
 
