@@ -2,6 +2,7 @@ package bgi_fonts
 import "core:fmt"
 import "core:strings"
 import "core:strconv"
+import "core:math"
 import rl   "vendor:raylib"
 
 Window :: struct { 
@@ -262,10 +263,10 @@ int_to_string :: #force_inline proc(num: i32) -> string {
 }
 
 main :: proc() {
-
-	window := Window{"line-segment fonts demo", 1920, 1080}
+	rl.SetConfigFlags({ .WINDOW_RESIZABLE, .VSYNC_HINT, .WINDOW_HIGHDPI })
+	window := Window{"line-segment fonts demo", 1280, 720}
 	rl.InitWindow(window.width, window.height, window.name)
-	rl.ToggleFullscreen()
+	// rl.ToggleFullscreen()
 	rl.SetTargetFPS(30)
 	defer rl.CloseWindow()
 
@@ -298,40 +299,63 @@ main :: proc() {
 	buf1: [8]byte
 	buf2: [8]byte
 
+	yOffset : i32 = 0
+
 
 	mainStyle := glyphStyle {3, 3, 1, rl.WHITE}
 
 
 	for !rl.WindowShouldClose() {
+		if rl.IsWindowResized() {
+			window.width = rl.GetScreenWidth()
+			window.height = rl.GetScreenHeight()
+		}
+
 		{
 			using mainStyle
 			if rl.IsKeyPressed(.LEFT) {
 				id := (demoFont.ID + 1) %% len(Fonts)
 				demoFont = Fonts[id] 
+				yOffset = 0
 			}
 			if rl.IsKeyPressed(.RIGHT) {
 				id := (demoFont.ID - 1) %% len(Fonts)
 				demoFont = Fonts[id]
+				yOffset = 0
 			}
-			if rl.IsKeyPressed(.UP) {
-				scaleX += 1
-				scaleY += 1
-			}
-			if rl.IsKeyPressed(.DOWN) {
+			if rl.IsKeyPressed(.MINUS) {
 				scaleX = max(1, scaleX - 1)
 				scaleY = max(1, scaleY - 1)
+				yOffset = 0
 			}
-			if rl.IsKeyPressed(.PERIOD) {
+			if rl.IsKeyPressed(.EQUAL) {
+				scaleX += 1
 				scaleY += 1
+				yOffset = 0
 			}
-			if rl.IsKeyPressed(.COMMA) {
-				scaleY = max(1, scaleY - 1)
-			}
+
 			if rl.IsKeyPressed(.LEFT_BRACKET) {
-				thickness = max(1, thickness - 1)
+				scaleX = max(1, scaleX - 1)
 			}
 			if rl.IsKeyPressed(.RIGHT_BRACKET) {
+				scaleX += 1
+			}
+
+			if rl.IsKeyPressed(.DOWN) {
+				thickness = max(1, thickness - 1)
+			}
+			if rl.IsKeyPressed(.UP) {
 				thickness += 1
+			}
+
+
+
+			{
+				yOffset += (i32)(rl.GetMouseWheelMove() * 16.0)
+
+				if rl.IsMouseButtonDown(.LEFT) {
+					yOffset += (i32)(rl.GetMouseDelta()[1])
+				}
 			}
 		
 
@@ -339,24 +363,26 @@ main :: proc() {
 			rl.BeginDrawing()
 			rl.ClearBackground(rl.BLACK)
 
-			messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont,  Vertex{16, 36}, mainStyle)
-			newY := messageposition.Y + 36 + demoFont.height * scaleY
-			newY -= demoFont.desc_height * scaleY
-			// newY += 4
-			DrawLineBresenham(window, 0, newY, window.width, newY, rl.GREEN)
-			DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
+			{
+				messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont,  Vertex{16, 36 + yOffset}, mainStyle)
+				newY := yOffset + messageposition.Y + 36 + demoFont.height * scaleY
+				newY -= demoFont.desc_height * scaleY
+				// newY += 4
+				rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
+				DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
+			}
 
-			uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
-			DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
+			{
+				uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
+				DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
 
-			uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
-			DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
+				uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
+				DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
 
-			uiMessage3 := "interact with arrow keys, < >, and [ ]"
-			DrawMessage(window, uiMessage3, uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
-
-			DrawLineBresenham(window, 0, 36, window.width, 36, rl.GREEN)
-
+				uiMessage3 := "interact with arrow keys, - +, and [ ]"
+				DrawMessage(window, uiMessage3, uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
+				rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
+			}
 			rl.EndDrawing()
 		}
 	}
