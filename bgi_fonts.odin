@@ -229,7 +229,7 @@ DrawAllGlyphs :: proc(window: Window, font: Font, position: Vertex, style: glyph
 			drawGlyph(window, font.glyphs[i], glyphX + position.X + t, glyphY + position.Y + t, style)
 		}
 		drawGlyph(window, font.glyphs[i], glyphX + position.X, glyphY + position.Y, style)
-		glyphX += font.glyphs[i].width * scaleX
+		glyphX += font.glyphs[i].width * scaleX + 4
 		if i < font.nglyphs - 1 {
 			nextGlyph : Glyph = font.glyphs[i + 1]
 			if glyphX > window.width - position.X - font.glyphs[i + 1].width * scaleX {
@@ -370,18 +370,27 @@ main :: proc() {
 				// newY += 4
 				rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
 				DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
-			}
 
-			{
 				uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
 				DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
 
 				uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
 				DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
+				DrawMessage(window, "interact with arrow keys, - +, and [ ]", uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
 
-				uiMessage3 := "interact with arrow keys, - +, and [ ]"
-				DrawMessage(window, uiMessage3, uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
-				rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
+				{
+					rulePosition := clamp(yOffset + 36, 36, newY)
+					rl.DrawLine(0, rulePosition, window.width, rulePosition, rl.GREEN)
+
+					rectSize := MeasureText("edit", uiFont, false)
+					x := window.width - rectSize.X * 2 - 16
+					y := rulePosition
+					w := rectSize.X * 2
+					h := rectSize.Y * 2
+					DrawMessage(window, "edit", uiFont, {x,y}, {2, 2, 1, rl.GREEN})
+					rl.DrawRectangleLines(x - 6, y, w + 8, h + 8, rl.GREEN)
+				}
+
 			}
 			rl.EndDrawing()
 		}
