@@ -132,22 +132,14 @@ DrawLineBresenham :: proc(x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
 }
 
 
-drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
+drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scaleX: i32, scaleY: i32, color: rl.Color) {
 	for i :i32= 0; i < glyph.nVertices; i += 2 {
-		x1 := glyph.vertices[i].X * scale + x
-		y1 := glyph.vertices[i].Y * scale + y
-		x2 := glyph.vertices[i + 1].X * scale + x
-		y2 := glyph.vertices[i + 1].Y * scale + y
-
-		// rl.DrawPixel(x1, y1, rl.YELLOW)
-		// rl.DrawPixel(x2, y2, rl.YELLOW)
+		x1 := glyph.vertices[i].X * scaleX + x
+		y1 := glyph.vertices[i].Y * scaleY + y
+		x2 := glyph.vertices[i + 1].X * scaleX + x
+		y2 := glyph.vertices[i + 1].Y * scaleY + y
 
 		DrawLineBresenham(x1, y1, x2, y2, color)
-		// if x1 == x2 && y1 == y2 do rl.DrawPixel(x1, y1, rl.YELLOW)
-		// else {
-			// rl.DrawLine(x1, y1, x2, y2, color)
-		// }
-
 	}
 }
 
@@ -194,7 +186,7 @@ GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
 	return index;
 }
 
-DrawMessage :: proc(window: Window, message: string, font: Font, scale: i32, position: Vertex, color: rl.Color) -> Vertex {
+DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color) -> Vertex {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 
@@ -204,31 +196,31 @@ DrawMessage :: proc(window: Window, message: string, font: Font, scale: i32, pos
 		for j := 0; j < len(words[i]); j += 1 {
 			char : rune = cast(rune)words[i][j]
 			glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
-			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scale, color)
-			glyphX += font.glyphs[glyphIndex].width * scale
+			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color)
+			glyphX += font.glyphs[glyphIndex].width * scaleX
 		}
 		if i < len(words) - 1 {
-			nextwidth := MeasureText(words[i + 1], font, false).X * scale
+			nextwidth := MeasureText(words[i + 1], font, false).X * scaleX
 			if glyphX > window.width - position.X - nextwidth {
 				glyphX = 0
-				glyphY += font.height * scale
+				glyphY += font.height * scaleY
 			}
 		}
 	}
 	return Vertex{glyphX, glyphY}
 }
 
-DrawAllGlyphs :: proc(window: Window, font: Font, scale: i32, position: Vertex, color: rl.Color) {
+DrawAllGlyphs :: proc(window: Window, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color) {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 	for i : i32 = 0; i < font.nglyphs; i += 1 {
-		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scale, color)
-		glyphX += font.glyphs[i].width * scale
+		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color)
+		glyphX += font.glyphs[i].width * scaleX
 		if i < font.nglyphs - 1 {
 			nextGlyph : Glyph = font.glyphs[i + 1]
-			if glyphX > window.width - position.X - font.glyphs[i + 1].width * scale {
+			if glyphX > window.width - position.X - font.glyphs[i + 1].width * scaleX {
 				glyphX = 0
-				glyphY += font.height * scale
+				glyphY += font.height * scaleY
 			}
 		}
 	} 
@@ -250,24 +242,10 @@ MeasureText :: proc(text: string, font: Font, includeSpaces: bool) -> Vertex {
 }
 
 
-User_Input :: struct {
-    KeyLeftPressed:		bool,
-    KeyRightPressed:	bool,
-    KeyUpPressed:		bool,
-    KeyDownPressed:		bool
-}
 
-// process_user_input :: proc(user_input: ^User_Input) {
-//     user_input^ = User_Input{
-//         KeyLeftPressed = rl.IsKeyPressed(.INPUT_KEY_LEFT),
-//         KeyLeftPressed = rl.IsKeyPressed(.INPUT_KEY_RIGHT),
-//     }
-// }
-
-
-int_to_string :: #force_inline proc(num: int) -> string {
-	buf: [4]byte
-	return strconv.itoa(buf[:], num)
+int_to_string :: #force_inline proc(num: i32) -> string {
+	buf: [8]byte
+	return strconv.itoa(buf[:], cast(int)num)
 }
 
 main :: proc() {
@@ -292,7 +270,8 @@ main :: proc() {
 	uiFont := Fonts[4]
 	demoFont := Fonts[1]
 
-	scale : i32 = 3
+	scaleX : i32 = 3
+	scaleY : i32 = 3
 	// uiFont := FontList.litt
 	// demoFont := FontList.trip
 	// LoadCodepoints("k")
@@ -301,8 +280,14 @@ main :: proc() {
 	// 	fmt.println(GetGlyphIndex(i))
 	// }
 
-	fmt.println(GetGlyphIndex(GetCodepoint('!')))
+	// fmt.println(GetGlyphIndex(GetCodepoint('!')))
 	
+
+
+	buf1: [8]byte
+	buf2: [8]byte
+
+
 
 	for !rl.WindowShouldClose() {
 
@@ -315,28 +300,36 @@ main :: proc() {
 			demoFont = Fonts[id]
 		}
 		if rl.IsKeyPressed(.UP) {
-			scale += 1
+			scaleX += 1
+			scaleY += 1
 		}
 		if rl.IsKeyPressed(.DOWN) {
-			scale = max(1, scale - 1)
+			scaleX = max(1, scaleX - 1)
+			scaleY = max(1, scaleY - 1)
+		}
+		if rl.IsKeyPressed(.RIGHT_BRACKET) {
+			scaleY += 1
+		}
+		if rl.IsKeyPressed(.LEFT_BRACKET) {
+			scaleY = max(1, scaleY - 1)
 		}
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BLACK)
 
-		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scale, Vertex{16, 36}, rl.WHITE)
-		newY := messageposition.Y + 36 + demoFont.height * scale
-		newY -= demoFont.desc_height * scale
-		newY += 4
+		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scaleX, scaleY, Vertex{16, 36}, rl.WHITE)
+		newY := messageposition.Y + 36 + demoFont.height * scaleY
+		newY -= demoFont.desc_height * scaleY
+		// newY += 4
 		rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
-		DrawAllGlyphs(window, demoFont, scale, Vertex{16, newY}, rl.WHITE)
+		DrawAllGlyphs(window, demoFont, scaleX, scaleY, Vertex{16, newY}, rl.WHITE)
 
 		uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
-		DrawMessage(window, uiMessage, uiFont, 3, Vertex{16,0}, rl.GREEN)
-		uiMessage2 := strings.concatenate({ "  scale: ", int_to_string(cast(int)scale) })
-		DrawMessage(window, uiMessage2, uiFont, 3, Vertex{window.width / 2, 0}, rl.GREEN)
+		DrawMessage(window, uiMessage, uiFont, 3, 3, Vertex{16,0}, rl.GREEN)
+		uiMessage2 := strings.concatenate({ "  scaleX: ", strconv.itoa(buf1[:], cast(int)scaleX), " scaleY: ", strconv.itoa(buf2[:], cast(int)scaleY) })
+		DrawMessage(window, uiMessage2, uiFont, 3, 3, Vertex{window.width / 3, 0}, rl.GREEN)
 		uiMessage3 := "interact with arrow keys"
-		DrawMessage(window, uiMessage3, uiFont, 2, Vertex{window.width - 300, 10}, rl.GREEN)
+		DrawMessage(window, uiMessage3, uiFont, 3, 3, Vertex{window.width - 300, 0}, rl.GREEN)
 
 		rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
 
