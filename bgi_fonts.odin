@@ -77,7 +77,10 @@ importGlyphData :: proc(_width: i32, _size: i32, _data : []i32) -> Glyph {
 
 
 
-DrawLineBresenham :: proc(x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
+DrawLineBresenham :: proc(window: Window, x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
+	if x1 > window.width && x2 > window.width do return
+	if y1 > window.height && y2 > window.height do return
+
 	dx, dy, i, e : i32
 	incx, incy, inc1, inc2 : i32
 	x, y : i32
@@ -134,39 +137,26 @@ DrawLineBresenham :: proc(x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
 
 drawStyle :: enum {
 	normal,
-	
+
+}
+
+glyphStyle :: struct {
+	scaleX, scaleY, thickness : i32,
+	color: rl.Color
 }
 
 
-drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scaleX: i32, scaleY: i32, color: rl.Color, thickness: i32) {
+drawGlyph :: proc(window: Window, glyph: Glyph, x: i32, y:i32, style: glyphStyle) {
+	using style
 	for i :i32= 0; i < glyph.nVertices; i += 2 {
 		x1 := glyph.vertices[i].X * scaleX + x
 		y1 := glyph.vertices[i].Y * scaleY + y
 		x2 := glyph.vertices[i + 1].X * scaleX + x
 		y2 := glyph.vertices[i + 1].Y * scaleY + y
-
-		for i:i32 = 2; i < thickness * 2; i+= 2 {
-			DrawLineBresenham(x1 + i, y1 + i, x2 + i, y2 + i, color)
-			// DrawLineBresenham(x1 + i, y1, x2 + i, y2, color)
-			// DrawLineBresenham(x1, y1 + i, x2, y2 + i, color)
-		}
-		DrawLineBresenham(x1, y1, x2, y2, color)
-		
+		DrawLineBresenham(window, x1, y1, x2, y2, color)
 	}
 }
 
-drawGlyphRL :: proc(glyph: Glyph, x: i32, y:i32, scale: i32, color: rl.Color) {
-	for i :i32= 0; i < glyph.nVertices; i += 2 {
-		x1 := glyph.vertices[i].X * scale + x
-		y1 := glyph.vertices[i].Y * scale + y
-		x2 := glyph.vertices[i + 1].X * scale + x
-		y2 := glyph.vertices[i + 1].Y * scale + y
-
-		rl.DrawLine(x1, y1, x2, y2, color)
-		rl.DrawPixel(x1 - 1, y1, rl.YELLOW)
-		rl.DrawPixel(x2 - 1, y2, rl.YELLOW)
-	}
-}
 
 
 
@@ -198,7 +188,9 @@ GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
 	return index;
 }
 
-DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color, thickness: i32) -> Vertex {
+DrawMessage :: proc(window: Window, message: string, font: Font, position: Vertex, style: glyphStyle) -> Vertex {
+	using style
+
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 
@@ -208,7 +200,12 @@ DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, sc
 		for j := 0; j < len(words[i]); j += 1 {
 			char : rune = cast(rune)words[i][j]
 			glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
-			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color, thickness)
+
+			for i:i32 = 2; i < thickness * 2; i+= 2 {
+				drawGlyph(window, font.glyphs[glyphIndex], glyphX + position.X + i, glyphY + position.Y + i, style)
+			}
+
+			drawGlyph(window, font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, style)
 			glyphX += font.glyphs[glyphIndex].width * scaleX
 		}
 		if i < len(words) - 1 {
@@ -222,11 +219,15 @@ DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, sc
 	return Vertex{glyphX, glyphY}
 }
 
-DrawAllGlyphs :: proc(window: Window, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color, thickness: i32) {
+DrawAllGlyphs :: proc(window: Window, font: Font, position: Vertex, style: glyphStyle) {
+	using style
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 	for i : i32 = 0; i < font.nglyphs; i += 1 {
-		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color, thickness)
+		for t:i32 = 2; t < thickness * 2; t+= 2 {
+			drawGlyph(window, font.glyphs[i], glyphX + position.X + t, glyphY + position.Y + t, style)
+		}
+		drawGlyph(window, font.glyphs[i], glyphX + position.X, glyphY + position.Y, style)
 		glyphX += font.glyphs[i].width * scaleX
 		if i < font.nglyphs - 1 {
 			nextGlyph : Glyph = font.glyphs[i + 1]
@@ -262,10 +263,11 @@ int_to_string :: #force_inline proc(num: i32) -> string {
 
 main :: proc() {
 
-	window := Window{"line-segment fonts demo", 1280, 720}
+	window := Window{"line-segment fonts demo", 1920, 1080}
 	rl.InitWindow(window.width, window.height, window.name)
+	rl.ToggleFullscreen()
+	rl.SetTargetFPS(30)
 	defer rl.CloseWindow()
-	rl.SetTargetFPS(60)
 
 	Fonts := [dynamic]Font {}
 	append(&Fonts, importFontData("bold", len(Fonts), bold_NGLYPHS, bold_height, bold_desc_height, bold_width, bold_size, bold_data))
@@ -281,11 +283,6 @@ main :: proc() {
 
 	uiFont := Fonts[4]
 	demoFont := Fonts[1]
-
-	scaleX : i32 = 3
-	scaleY : i32 = 3
-
-	thickness : i32 = 1
 	// uiFont := FontList.litt
 	// demoFont := FontList.trip
 	// LoadCodepoints("k")
@@ -302,60 +299,66 @@ main :: proc() {
 	buf2: [8]byte
 
 
+	mainStyle := glyphStyle {3, 3, 1, rl.WHITE}
+
 
 	for !rl.WindowShouldClose() {
+		{
+			using mainStyle
+			if rl.IsKeyPressed(.LEFT) {
+				id := (demoFont.ID + 1) %% len(Fonts)
+				demoFont = Fonts[id] 
+			}
+			if rl.IsKeyPressed(.RIGHT) {
+				id := (demoFont.ID - 1) %% len(Fonts)
+				demoFont = Fonts[id]
+			}
+			if rl.IsKeyPressed(.UP) {
+				scaleX += 1
+				scaleY += 1
+			}
+			if rl.IsKeyPressed(.DOWN) {
+				scaleX = max(1, scaleX - 1)
+				scaleY = max(1, scaleY - 1)
+			}
+			if rl.IsKeyPressed(.PERIOD) {
+				scaleY += 1
+			}
+			if rl.IsKeyPressed(.COMMA) {
+				scaleY = max(1, scaleY - 1)
+			}
+			if rl.IsKeyPressed(.LEFT_BRACKET) {
+				thickness = max(1, thickness - 1)
+			}
+			if rl.IsKeyPressed(.RIGHT_BRACKET) {
+				thickness += 1
+			}
+		
 
-		if rl.IsKeyPressed(.LEFT) {
-			id := (demoFont.ID + 1) %% len(Fonts)
-			demoFont = Fonts[id] 
-		}
-		if rl.IsKeyPressed(.RIGHT) {
-			id := (demoFont.ID - 1) %% len(Fonts)
-			demoFont = Fonts[id]
-		}
-		if rl.IsKeyPressed(.UP) {
-			scaleX += 1
-			scaleY += 1
-		}
-		if rl.IsKeyPressed(.DOWN) {
-			scaleX = max(1, scaleX - 1)
-			scaleY = max(1, scaleY - 1)
-		}
-		if rl.IsKeyPressed(.PERIOD) {
-			scaleY += 1
-		}
-		if rl.IsKeyPressed(.COMMA) {
-			scaleY = max(1, scaleY - 1)
-		}
-		if rl.IsKeyPressed(.LEFT_BRACKET) {
-			thickness = max(1, thickness - 1)
-		}
-		if rl.IsKeyPressed(.RIGHT_BRACKET) {
-			thickness += 1
-		}
 
-		rl.BeginDrawing()
-		rl.ClearBackground(rl.BLACK)
+			rl.BeginDrawing()
+			rl.ClearBackground(rl.BLACK)
 
-		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scaleX, scaleY, Vertex{16, 36}, rl.WHITE, thickness)
-		newY := messageposition.Y + 36 + demoFont.height * scaleY
-		newY -= demoFont.desc_height * scaleY
-		// newY += 4
-		rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
-		DrawAllGlyphs(window, demoFont, scaleX, scaleY, Vertex{16, newY}, rl.WHITE, thickness)
+			messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont,  Vertex{16, 36}, mainStyle)
+			newY := messageposition.Y + 36 + demoFont.height * scaleY
+			newY -= demoFont.desc_height * scaleY
+			// newY += 4
+			DrawLineBresenham(window, 0, newY, window.width, newY, rl.GREEN)
+			DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
 
-		uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
-		DrawMessage(window, uiMessage, uiFont, 3, 3, Vertex{16,0}, rl.GREEN, 1)
+			uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
+			DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
 
-		uiMessage2 := strings.concatenate({ "  scaleX: ", strconv.itoa(buf1[:], cast(int)scaleX), " scaleY: ", strconv.itoa(buf2[:], cast(int)scaleY) })
-		DrawMessage(window, uiMessage2, uiFont, 3, 3, Vertex{window.width / 3, 0}, rl.GREEN, 1)
+			uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
+			DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
 
-		uiMessage3 := "interact with arrow keys, < >, and [ ]"
-		DrawMessage(window, uiMessage3, uiFont, 2, 2, Vertex{window.width - 300, -4}, rl.GREEN, 1)
+			uiMessage3 := "interact with arrow keys, < >, and [ ]"
+			DrawMessage(window, uiMessage3, uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
 
-		rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
+			DrawLineBresenham(window, 0, 36, window.width, 36, rl.GREEN)
 
-		rl.EndDrawing()
+			rl.EndDrawing()
+		}
 	}
 }
 
