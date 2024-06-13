@@ -132,14 +132,26 @@ DrawLineBresenham :: proc(x1: i32, y1: i32, x2: i32, y2: i32, color: rl.Color) {
 }
 
 
-drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scaleX: i32, scaleY: i32, color: rl.Color) {
+drawStyle :: enum {
+	normal,
+	
+}
+
+
+drawGlyph :: proc(glyph: Glyph, x: i32, y:i32, scaleX: i32, scaleY: i32, color: rl.Color, thickness: i32) {
 	for i :i32= 0; i < glyph.nVertices; i += 2 {
 		x1 := glyph.vertices[i].X * scaleX + x
 		y1 := glyph.vertices[i].Y * scaleY + y
 		x2 := glyph.vertices[i + 1].X * scaleX + x
 		y2 := glyph.vertices[i + 1].Y * scaleY + y
 
+		for i:i32 = 2; i < thickness * 2; i+= 2 {
+			DrawLineBresenham(x1 + i, y1 + i, x2 + i, y2 + i, color)
+			// DrawLineBresenham(x1 + i, y1, x2 + i, y2, color)
+			// DrawLineBresenham(x1, y1 + i, x2, y2 + i, color)
+		}
 		DrawLineBresenham(x1, y1, x2, y2, color)
+		
 	}
 }
 
@@ -186,7 +198,7 @@ GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
 	return index;
 }
 
-DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color) -> Vertex {
+DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color, thickness: i32) -> Vertex {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 
@@ -196,7 +208,7 @@ DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, sc
 		for j := 0; j < len(words[i]); j += 1 {
 			char : rune = cast(rune)words[i][j]
 			glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
-			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color)
+			drawGlyph(font.glyphs[glyphIndex], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color, thickness)
 			glyphX += font.glyphs[glyphIndex].width * scaleX
 		}
 		if i < len(words) - 1 {
@@ -210,11 +222,11 @@ DrawMessage :: proc(window: Window, message: string, font: Font, scaleX: i32, sc
 	return Vertex{glyphX, glyphY}
 }
 
-DrawAllGlyphs :: proc(window: Window, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color) {
+DrawAllGlyphs :: proc(window: Window, font: Font, scaleX: i32, scaleY: i32, position: Vertex, color: rl.Color, thickness: i32) {
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 	for i : i32 = 0; i < font.nglyphs; i += 1 {
-		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color)
+		drawGlyph(font.glyphs[i], glyphX + position.X, glyphY + position.Y, scaleX, scaleY, color, thickness)
 		glyphX += font.glyphs[i].width * scaleX
 		if i < font.nglyphs - 1 {
 			nextGlyph : Glyph = font.glyphs[i + 1]
@@ -272,6 +284,8 @@ main :: proc() {
 
 	scaleX : i32 = 3
 	scaleY : i32 = 3
+
+	thickness : i32 = 1
 	// uiFont := FontList.litt
 	// demoFont := FontList.trip
 	// LoadCodepoints("k")
@@ -307,29 +321,37 @@ main :: proc() {
 			scaleX = max(1, scaleX - 1)
 			scaleY = max(1, scaleY - 1)
 		}
-		if rl.IsKeyPressed(.RIGHT_BRACKET) {
+		if rl.IsKeyPressed(.PERIOD) {
 			scaleY += 1
 		}
-		if rl.IsKeyPressed(.LEFT_BRACKET) {
+		if rl.IsKeyPressed(.COMMA) {
 			scaleY = max(1, scaleY - 1)
+		}
+		if rl.IsKeyPressed(.LEFT_BRACKET) {
+			thickness = max(1, thickness - 1)
+		}
+		if rl.IsKeyPressed(.RIGHT_BRACKET) {
+			thickness += 1
 		}
 
 		rl.BeginDrawing()
 		rl.ClearBackground(rl.BLACK)
 
-		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scaleX, scaleY, Vertex{16, 36}, rl.WHITE)
+		messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont, scaleX, scaleY, Vertex{16, 36}, rl.WHITE, thickness)
 		newY := messageposition.Y + 36 + demoFont.height * scaleY
 		newY -= demoFont.desc_height * scaleY
 		// newY += 4
 		rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
-		DrawAllGlyphs(window, demoFont, scaleX, scaleY, Vertex{16, newY}, rl.WHITE)
+		DrawAllGlyphs(window, demoFont, scaleX, scaleY, Vertex{16, newY}, rl.WHITE, thickness)
 
 		uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
-		DrawMessage(window, uiMessage, uiFont, 3, 3, Vertex{16,0}, rl.GREEN)
+		DrawMessage(window, uiMessage, uiFont, 3, 3, Vertex{16,0}, rl.GREEN, 1)
+
 		uiMessage2 := strings.concatenate({ "  scaleX: ", strconv.itoa(buf1[:], cast(int)scaleX), " scaleY: ", strconv.itoa(buf2[:], cast(int)scaleY) })
-		DrawMessage(window, uiMessage2, uiFont, 3, 3, Vertex{window.width / 3, 0}, rl.GREEN)
-		uiMessage3 := "interact with arrow keys"
-		DrawMessage(window, uiMessage3, uiFont, 3, 3, Vertex{window.width - 300, 0}, rl.GREEN)
+		DrawMessage(window, uiMessage2, uiFont, 3, 3, Vertex{window.width / 3, 0}, rl.GREEN, 1)
+
+		uiMessage3 := "interact with arrow keys, < >, and [ ]"
+		DrawMessage(window, uiMessage3, uiFont, 2, 2, Vertex{window.width - 300, -4}, rl.GREEN, 1)
 
 		rl.DrawLine(0, 36, window.width, 36, rl.GREEN)
 
