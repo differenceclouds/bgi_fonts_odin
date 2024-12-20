@@ -15,7 +15,7 @@
 	[
 		{
 			"name": "sublime_odin_template",
-			"shell_cmd": "~/Odin/odin run .",
+			"shell_cmd": "~/Odin/odin run . -debug",
 
 		}
 	],

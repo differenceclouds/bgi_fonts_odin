@@ -132,7 +132,6 @@ DrawLineBresenham :: proc(window: Window, x1: i32, y1: i32, x2: i32, y2: i32, co
 			rl.DrawPixel(x, y, color)
 		}
 	}
-
 }
 
 
@@ -164,13 +163,13 @@ drawGlyph :: proc(window: Window, glyph: Glyph, x: i32, y:i32, style: glyphStyle
 LoadCodepoints :: proc(_text: string) -> [^]rune {
 	text := _text
 	count : i32 = cast(i32)len(text)
-	return rl.LoadCodepoints(&text, &count)
+	return rl.LoadCodepoints(fmt.ctprint(text), &count)
 }
 
 GetCodepoint :: proc(_glyph: rune) -> [^]rune {
 	glyph := _glyph
 	codepointByteCount :i32= 0;
-	return rl.LoadCodepoints(&glyph, &codepointByteCount)
+	return rl.LoadCodepoints(fmt.ctprint(glyph), &codepointByteCount)
 }
 
 GetGlyphIndex :: proc(codepoint_ptr : [^]rune) -> i32 {
@@ -202,7 +201,7 @@ DrawMessage :: proc(window: Window, message: string, font: Font, position: Verte
 			char : rune = cast(rune)words[i][j]
 			glyphIndex : i32 = GetGlyphIndex(GetCodepoint(char))
 
-			for i:i32 = 2; i < thickness * 2; i+= 2 {
+			for i:i32 = 1; i < thickness * 1; i+= 1 {
 				drawGlyph(window, font.glyphs[glyphIndex], glyphX + position.X + i, glyphY + position.Y + i, style)
 			}
 
@@ -225,7 +224,7 @@ DrawAllGlyphs :: proc(window: Window, font: Font, position: Vertex, style: glyph
 	glyphX : i32 = 0
 	glyphY : i32 = 0
 	for i : i32 = 0; i < font.nglyphs; i += 1 {
-		for t:i32 = 2; t < thickness * 2; t+= 2 {
+		for t:i32 = 1; t < thickness * 1; t+= 1 {
 			drawGlyph(window, font.glyphs[i], glyphX + position.X + t, glyphY + position.Y + t, style)
 		}
 		drawGlyph(window, font.glyphs[i], glyphX + position.X, glyphY + position.Y, style)
@@ -264,7 +263,7 @@ int_to_string :: #force_inline proc(num: i32) -> string {
 
 main :: proc() {
 	rl.SetConfigFlags({ .WINDOW_RESIZABLE, .VSYNC_HINT, .WINDOW_HIGHDPI })
-	window := Window{"line-segment fonts demo", 1280, 720}
+	window := Window{"line-segment fonts demo", 1024, 768}
 	rl.InitWindow(window.width, window.height, window.name)
 	// rl.ToggleFullscreen()
 	rl.SetTargetFPS(30)
@@ -311,89 +310,89 @@ main :: proc() {
 			window.height = rl.GetScreenHeight()
 		}
 
-		{
-			using mainStyle
-			if rl.IsKeyPressed(.LEFT) {
-				id := (demoFont.ID + 1) %% len(Fonts)
-				demoFont = Fonts[id] 
-				yOffset = 0
-			}
-			if rl.IsKeyPressed(.RIGHT) {
-				id := (demoFont.ID - 1) %% len(Fonts)
-				demoFont = Fonts[id]
-				yOffset = 0
-			}
-			if rl.IsKeyPressed(.MINUS) {
-				scaleX = max(1, scaleX - 1)
-				scaleY = max(1, scaleY - 1)
-				yOffset = 0
-			}
-			if rl.IsKeyPressed(.EQUAL) {
-				scaleX += 1
-				scaleY += 1
-				yOffset = 0
-			}
-
-			if rl.IsKeyPressed(.LEFT_BRACKET) {
-				scaleX = max(1, scaleX - 1)
-			}
-			if rl.IsKeyPressed(.RIGHT_BRACKET) {
-				scaleX += 1
-			}
-
-			if rl.IsKeyPressed(.DOWN) {
-				thickness = max(1, thickness - 1)
-			}
-			if rl.IsKeyPressed(.UP) {
-				thickness += 1
-			}
-
-
-
-			{
-				yOffset += (i32)(rl.GetMouseWheelMove() * 16.0)
-
-				if rl.IsMouseButtonDown(.LEFT) {
-					yOffset += (i32)(rl.GetMouseDelta()[1])
-				}
-			}
-		
-
-
-			rl.BeginDrawing()
-			rl.ClearBackground(rl.BLACK)
-
-			{
-				messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont,  Vertex{16, 36 + yOffset}, mainStyle)
-				newY := yOffset + messageposition.Y + 36 + demoFont.height * scaleY
-				newY -= demoFont.desc_height * scaleY
-				// newY += 4
-				rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
-				DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
-
-				uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
-				DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
-
-				uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
-				DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
-				DrawMessage(window, "interact with arrow keys, - +, and [ ]", uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
-
-				{
-					rulePosition := clamp(yOffset + 36, 36, newY)
-					rl.DrawLine(0, rulePosition, window.width, rulePosition, rl.GREEN)
-
-					rectSize := MeasureText("edit", uiFont, false)
-					x := window.width - rectSize.X * 2 - 16
-					y := rulePosition
-					w := rectSize.X * 2
-					h := rectSize.Y * 2
-					DrawMessage(window, "edit", uiFont, {x,y}, {2, 2, 1, rl.GREEN})
-					rl.DrawRectangleLines(x - 6, y, w + 8, h + 8, rl.GREEN)
-				}
-
-			}
-			rl.EndDrawing()
+		using mainStyle
+		if rl.IsKeyPressed(.LEFT) {
+			id := (demoFont.ID + 1) %% len(Fonts)
+			demoFont = Fonts[id] 
+			yOffset = 0
 		}
+		if rl.IsKeyPressed(.RIGHT) {
+			id := (demoFont.ID - 1) %% len(Fonts)
+			demoFont = Fonts[id]
+			yOffset = 0
+		}
+		if rl.IsKeyPressed(.MINUS) {
+			scaleX = max(1, scaleX - 1)
+			scaleY = max(1, scaleY - 1)
+			yOffset = 0
+		}
+		if rl.IsKeyPressed(.EQUAL) {
+			scaleX += 1
+			scaleY += 1
+			yOffset = 0
+		}
+
+		if rl.IsKeyPressed(.LEFT_BRACKET) {
+			scaleX = max(1, scaleX - 1)
+		}
+		if rl.IsKeyPressed(.RIGHT_BRACKET) {
+			scaleX += 1
+		}
+
+		if rl.IsKeyPressed(.DOWN) {
+			thickness = max(1, thickness - 1)
+		}
+		if rl.IsKeyPressed(.UP) {
+			thickness += 1
+		}
+
+
+
+		{
+			yOffset += (i32)(rl.GetMouseWheelMove() * 16.0)
+
+			if rl.IsMouseButtonDown(.LEFT) {
+				yOffset += (i32)(rl.GetMouseDelta()[1])
+			}
+		}
+	
+
+
+		rl.BeginDrawing()
+		rl.ClearBackground(rl.BLACK)
+
+		
+		
+		{
+			messageposition := DrawMessage(window, "Why shop at 5 or six stores when you could shop at just one?!", demoFont,  Vertex{16, 36 + yOffset}, mainStyle)
+			newY := yOffset + messageposition.Y + 36 + demoFont.height * scaleY
+			newY -= demoFont.desc_height * scaleY
+			// newY += 4
+			rl.DrawLine(0, newY, window.width, newY, rl.GREEN)
+			DrawAllGlyphs(window, demoFont, Vertex{16, newY}, mainStyle)
+
+			uiMessage : = strings.concatenate({"font: \"",demoFont.name,"\""})
+			DrawMessage(window, uiMessage, uiFont,  Vertex{16,0}, {3,3,1,rl.GREEN})
+
+			uiMessage2 := strings.concatenate({ "  scale: ", strconv.itoa(buf1[:], cast(int)scaleX), ",", strconv.itoa(buf2[:], cast(int)scaleY) })
+			DrawMessage(window, uiMessage2, uiFont,Vertex{window.width / 3, 0}, {3,3,1,rl.GREEN})
+			DrawMessage(window, "interact with arrow keys, - +, and [ ]", uiFont,  Vertex{window.width - 300, -4}, {2,2,1,rl.GREEN})
+
+			{
+				rulePosition := clamp(yOffset + 36, 36, newY)
+				rl.DrawLine(0, rulePosition, window.width, rulePosition, rl.GREEN)
+
+				rectSize := MeasureText("edit", uiFont, false)
+				x := window.width - rectSize.X * 2 - 16
+				y := rulePosition
+				w := rectSize.X * 2
+				h := rectSize.Y * 2
+				DrawMessage(window, "edit", uiFont, {x,y}, {2, 2, 1, rl.GREEN})
+				rl.DrawRectangleLines(x - 6, y, w + 8, h + 8, rl.GREEN)
+			}
+
+		}
+		rl.EndDrawing()
 	}
 }
 
